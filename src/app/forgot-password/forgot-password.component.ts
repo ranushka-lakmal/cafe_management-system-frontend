@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.forgotPasswordForm = this.formBuilder.group({
-      email:[null,[Validators.pattern(GlobalConstants.emailRegex)]]
+      email:[null,[Validators.required, Validators.pattern(GlobalConstants.emailRegex)]]
     });
   }
 
@@ -39,7 +39,7 @@ export class ForgotPasswordComponent implements OnInit {
        this.resposeMessage = response?.message;
        this.dialogRef.close();
        this.snakebarService.openSnackBar(this.resposeMessage, "");
-     }, (error)=> {
+     },(error)=> {
         this.ngxService.stop();
         if(error.error?.message){
           this.resposeMessage = error.error?.message;
