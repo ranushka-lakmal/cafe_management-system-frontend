@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
               private userService: UserService,
               private dialogRef: MatDialogRef<LoginComponent>,
               private ngxService: NgxUiLoaderService,
-              private snakeBar: SnackbarService) { }
+              private snakeBarService: SnackbarService) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -31,4 +31,27 @@ export class LoginComponent implements OnInit {
     })
   }
 
+
+  handleSubmit(){
+    this.ngxService.start();
+    var formData = this.loginForm.value;
+    var data={
+      email: formData.email,
+      password: formData.password
+    }
+    this.userService.login(data).subscribe((response:any)=>{
+      this.ngxService.stop();
+      this.dialogRef.close();
+      localStorage.setItem('token', response.token);
+      this.router.navigate(['/cafe/dashboard'])
+    },(error)=> {
+      if(error.error?.message){
+        this.responseMessage = error.error?.message;
+      }
+      else{
+        this.responseMessage = GlobalConstants.genericError;
+      }
+      this.snakeBarService.openSnackBar(this.responseMessage,GlobalConstants.error);
+    });
+  }
 }
