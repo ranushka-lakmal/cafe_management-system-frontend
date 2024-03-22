@@ -1,42 +1,44 @@
-import { Component, AfterViewInit } from '@angular/core';
+import {Component, AfterViewInit} from '@angular/core';
 import {DashboardService} from '../services/dashboard.service';
 import {NgxUiLoaderService} from 'ngx-ui-loader';
 import {SnackbarService} from '../services/snackbar.service';
 import {GlobalConstants} from '../shared/global-constants';
+
 @Component({
-	selector: 'app-dashboard',
-	templateUrl: './dashboard.component.html',
-	styleUrls: ['./dashboard.component.scss']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit {
 
-  responseMessage:any;
+  responseMessage: any;
   data: any;
-	ngAfterViewInit() { }
 
-	constructor(private dashboardService:DashboardService,
-              private ngxService:NgxUiLoaderService,
-              private snakebarService:SnackbarService) {
-                this.ngxService.start();
-                this.dashboardData();
-	}
+  ngAfterViewInit() {
+  }
 
-  dashboardData(){
-    this.dashboardService.getDetails().subscribe((response:any)=>{
+  constructor(private dashboardService: DashboardService,
+              private ngxService: NgxUiLoaderService,
+              private snakebarService: SnackbarService) {
+    this.ngxService.start();
+    this.dashboardData();
+  }
+
+  dashboardData() {
+    this.dashboardService.getDetails().subscribe((response: any) => {
       this.ngxService.stop();
       this.data = response;
-    },(error:any)=>{
+    }, (error: any) => {
       this.ngxService.stop();
       console.log(error);
 
-      if(error.error?.message){
+      if (error.error?.message) {
         this.responseMessage = error.error?.message;
-      }
-      else{
+      } else {
         this.responseMessage = GlobalConstants.genericError;
       }
-      this.snakebarService.openSnackBar(this.responseMessage,GlobalConstants.error);
-    })
+      this.snakebarService.openSnackBar(this.responseMessage, GlobalConstants.error);
+    });
   }
 
 }

@@ -1,5 +1,5 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, AfterViewInit } from '@angular/core';
+import {MediaMatcher} from '@angular/cdk/layout';
+import {ChangeDetectorRef, Component, OnDestroy, AfterViewInit} from '@angular/core';
 
 
 /** @title Responsive sidenav */
@@ -25,5 +25,7 @@ export class FullComponent implements OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
-  ngAfterViewInit() { }
+
+  ngAfterViewInit() {
+  }
 }
